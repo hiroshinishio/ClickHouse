@@ -1169,7 +1169,7 @@ void BackupsWorker::waitAll()
     for (const auto & id : current_operations)
         wait(id, /* rethrow_exception= */ false);
 
-    backup_log->flush(backup_log->getLastLogIndex());
+    backup_log->flush(backup_log->getLastLogIndex(), /* should_prepare_tables_anyway */ false);
 
     LOG_INFO(log, "Backups and restores finished");
 }
@@ -1220,6 +1220,8 @@ void BackupsWorker::cancelAll(bool wait_)
     if (wait_)
         for (const auto & id : current_operations)
             wait(id, /* rethrow_exception= */ false);
+
+    backup_log->flush(backup_log->getLastLogIndex(), /* should_prepare_tables_anyway */ false);
 
     LOG_INFO(log, "Backups and restores finished or stopped");
 }
