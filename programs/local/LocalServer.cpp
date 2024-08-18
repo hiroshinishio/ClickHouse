@@ -921,8 +921,16 @@ void LocalServer::processOptions(const OptionsDescription &, const CommandLineOp
 }
 
 void LocalServer::readArguments(int argc, char ** argv, Arguments & common_arguments, std::vector<Arguments> &, std::vector<Arguments> &)
+    bool copy_mode = false;
+    for (int arg_num = 1; arg_num < argc; ++arg_num)
+    {
+        std::string_view arg = argv[arg_num];
 {
     for (int arg_num = 1; arg_num < argc; ++arg_num)
+        if (arg == "--copy")
+        {
+            copy_mode = true;
+        }
     {
         std::string_view arg = argv[arg_num];
 
